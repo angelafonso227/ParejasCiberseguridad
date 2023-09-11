@@ -1,114 +1,55 @@
-# import os
+import os
 
-# os.chdir('D:\Documentos\ACTIVIDADES TEC\QUINTO SEMESTRE\Ciberseguridad\ParejasCiberseguridad\Cipher')
+os.chdir('D:\Documentos\ACTIVIDADES TEC\QUINTO SEMESTRE\Ciberseguridad\ParejasCiberseguridad\Cipher')
 
-# with open('cipher2.txt', 'r') as archivo:
-#     contenido = archivo.read()
+alfabeto = "abcdefghijklmnopqrstuvwxyz "
 
-# cadenas_de_cuatro = []
+letter_to_index = dict(zip(alfabeto, range(len(alfabeto))))
+index_to_letter = dict(zip(range(len(alfabeto)), alfabeto))
 
-# contenido="ripqglqeldbkz ohgfccoetjhsbwe okztgagfqvsoyngaujtybqyeccgpccyopj"
+def decrypt(cipher, key):
+    decrypted = ""
+    split_encrypted = [
+        cipher[i : i + len(key)] for i in range(0, len(cipher), len(key))
+    ]
 
-# for i in range(0, len(contenido), 4):
-#     cadena = contenido[i:i+4]
-#     cadenas_de_cuatro.append(cadena)
+    for each_split in split_encrypted:
+        i = 0
+        for letter in each_split:
+            number = (letter_to_index[letter] - letter_to_index[key[i]]) % len(alfabeto)
+            decrypted += index_to_letter[number]
+            i += 1
 
-# for cadena in cadenas_de_cuatro:
-#     print(cadena) 
+    return decrypted
 
-def descifrarPrimera(texto, abecedario):
-    resultado = ""
-    contador = 0
+def encrypt(cipher, key):
+    encrypted = ""
+    split_decrypted = [
+        cipher[i : i + len(key)] for i in range(0, len(cipher), len(key))
+    ]
+
+    for each_split in split_decrypted:
+        i = 0
+        for letter in each_split:
+            number = (letter_to_index[letter] - letter_to_index[key[i]]) % len(alfabeto)
+            encrypted += index_to_letter[number]
+            i += 1
+
+    return encrypted
+
+
+def main():
+    with open("cipher2.txt", 'r') as archivo:
+        message = archivo.read()
+    key = "hack"
+    decrypted_message = decrypt(message, key)
+
+    print("Mensaje desencriptado: " + decrypted_message)
     
-    for letra in texto:
-        if letra in abecedario:
-            indice = abecedario.index(letra)
-            
-            if contador % 4 == 0:  # Cambiar solo la primera letra del grupo de 4
-                nueva_posicion = (indice + 7) % len(abecedario)
-                nueva_letra = abecedario[nueva_posicion]
-            else:
-                nueva_letra = letra
-            
-            resultado += nueva_letra
-            contador += 1
-        else:
-            resultado += letra
+    message=decrypted_message
+    encrypted_message = encrypt(message, key)
+    print("Mensaje encriptado: " + encrypted_message)
     
-    return resultado
 
-def descifrarSegunda(texto, abecedario):
-    resultado = ""
-    contador = 0
-    
-    for letra in texto:
-        if letra in abecedario:
-            indice = abecedario.index(letra)
-            
-            if contador % 4 == 1:  # Cambiar solo la primera letra del grupo de 4
-                nueva_posicion = (indice) % len(abecedario)
-                nueva_letra = abecedario[nueva_posicion]
-            else:
-                nueva_letra = letra
-            
-            resultado += nueva_letra
-            contador += 1
-        else:
-            resultado += letra
-    
-    return resultado
 
-def descifrarTercera(texto, abecedario):
-    resultado = ""
-    contador = 0
-    
-    for letra in texto:
-        if letra in abecedario:
-            indice = abecedario.index(letra)
-            
-            if contador % 4 == 2:  # Cambiar solo la primera letra del grupo de 4
-                nueva_posicion = (indice+2) % len(abecedario)
-                nueva_letra = abecedario[nueva_posicion]
-            else:
-                nueva_letra = letra
-            
-            resultado += nueva_letra
-            contador += 1
-        else:
-            resultado += letra
-    
-    return resultado
-
-def descifrarCuarta(texto, abecedario):
-    resultado = ""
-    contador = 0
-    
-    for letra in texto:
-        if letra in abecedario:
-            indice = abecedario.index(letra)
-            
-            if contador % 4 == 3:  # Cambiar solo la primera letra del grupo de 4
-                nueva_posicion = (indice+10) % len(abecedario)
-                nueva_letra = abecedario[nueva_posicion]
-            else:
-                nueva_letra = letra
-            
-            resultado += nueva_letra
-            contador += 1
-        else:
-            resultado += letra
-    
-    return resultado
-
-# Ejemplo de uso
-abecedario = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
-texto_original = "ripqglqeldbkz ohgfccoetjhsbwe okztgagfqvsoyngaujtybqyeccgpccyopj"
-texto_cifrado = descifrarPrimera(texto_original, abecedario)
-texto_original= texto_cifrado
-texto_cifrado = descifrarSegunda(texto_original, abecedario)
-texto_original= texto_cifrado
-texto_cifrado = descifrarTercera(texto_original, abecedario)
-texto_original= texto_cifrado
-texto_cifrado = descifrarCuarta(texto_original, abecedario)
-
-print(texto_cifrado)
+main()
