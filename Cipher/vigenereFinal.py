@@ -1,3 +1,9 @@
+'''
+Cifrado de vigenere
+Ángel Afonso - A01782545
+Daniel Soult - A01782985
+'''
+
 #import os
 
 #os.chdir('D:\Documentos\ACTIVIDADES TEC\QUINTO SEMESTRE\Ciberseguridad\ParejasCiberseguridad\Cipher')
