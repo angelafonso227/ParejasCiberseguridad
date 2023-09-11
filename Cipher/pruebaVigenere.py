@@ -1,3 +1,7 @@
+import os
+
+os.chdir('D:\Documentos\ACTIVIDADES TEC\QUINTO SEMESTRE\Ciberseguridad\ParejasCiberseguridad\Cipher')
+
 alfabeto = "abcdefghijklmnopqrstuvwxyz "
 
 letter_to_index = dict(zip(alfabeto, range(len(alfabeto))))
